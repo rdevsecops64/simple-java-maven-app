@@ -50,11 +50,9 @@ pipeline {
 
                     // Upload Artifact to Artifactory
                     server.upload(uploadSpec)
+                    server.publishBuildInfo(buildInfo)
                 }
             }
-        }
-        stage ('Publish build info') {
-        server.publishBuildInfo(buildInfo)
         }
         stage('Xray Scan') {
             steps {
