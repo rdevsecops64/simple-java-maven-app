@@ -47,7 +47,7 @@ pipeline {
                         }
                     """
 
-                    // Upload SonarCloud logs to Artifactory
+                    // Upload Artifact to Artifactory
                     server.upload(uploadSpec)
                 }
             }
