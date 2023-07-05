@@ -55,16 +55,22 @@ pipeline {
         stage('Xray Scan') {
             steps {
                 script {
+                    def server = Artifactory.server('artifactory')
+                    
                     def scanConfig = [
-                        file: 'Jenkinsfile',
-                        watchBuild: true,
-                        failBuild: true,
-                        includeEnvVars: true
+                        buildName: 'my-build',
+                        buildNumber: '1',
+                        failBuildOnScan: true,
+                        failBuildOnPolicyViolation: true
                     ]
                     
-                    xrayScan scanConfig
+                    def scanResults = server.xrayScan(scanConfig)
+                    
+                    if (scanResults && scanResults.summary.violations > 0) {
+                        error 'Xray scan detected policy violations.'
+                    }
                 }
             }
-        }                   
+        }                 
     }
 }
