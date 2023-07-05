@@ -32,24 +32,20 @@ pipeline {
         }
         stage("Upload to Artifactory") {
                 steps {
-                    script {
-                        rtServer (
-                            id: 'artifactory',
-                            url: 'https://rdevsecops64.jfrog.io/artifactory/default-libs-release',
-                            credentialsId: 'cmVmdGtuOjAxOjE3MjAxMTU3NzI6TlR2ZzJielV5YkdKZ1UzV0ppWE85cXRjb3Ba'
-                        )
-                        rtUpload (
-                            serverId: 'artifactory'
-                            spec: """{
-                                "files": [
-                                    {
-                                    "pattern": "target/*.jar",
-                                    "target": "https://rdevsecops64.jfrog.io/artifactory/default-libs-release"
-                                    }
-                                ]
-                            }"""
-                        )
-                }
+                 def uploadSpec = """{
+                  "files": [
+                   {
+                    "pattern": "jenkins-pipeline-examples/resources/.*A[A-z]tifactory.*.zip",
+                   "target": "libs-snapshot-local/",
+                      "regexp": "true"
+                 },
+                 {
+                     "pattern": "jenkins-pipeline-examples/resources/.*(A|a)rtifactory.*.zip",
+                    "target": "libs-snapshot-local/",
+                    "regexp": "true"
+                 }
+         ]
+                }"""
             }
         }      
     }
