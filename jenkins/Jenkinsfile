@@ -58,8 +58,8 @@ pipeline {
                     def server = Artifactory.server('artifactory')
                     
                     def scanConfig = [
-                        buildName: 'my-build',
-                        buildNumber: '1',
+                        buildName: 'java-sample-app-07',
+                        buildNumber: '19',
                         failBuild: false
                     ]
                     
