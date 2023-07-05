@@ -51,6 +51,20 @@ pipeline {
                     server.upload(uploadSpec)
                 }
             }
-        }           
+        }
+        stage('Xray Scan') {
+            steps {
+                script {
+                    def scanConfig = [
+                        file: 'Jenkinsfile',
+                        watchBuild: true,
+                        failBuild: true,
+                        includeEnvVars: true
+                    ]
+                    
+                    xrayScan scanConfig
+                }
+            }
+        }                   
     }
 }
