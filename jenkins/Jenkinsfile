@@ -41,7 +41,7 @@ pipeline {
                             "files": [
                                 {
                                     "pattern": "target/*.jar",
-                                    "target": "default-libs-release"                              }
+                                    "target": "1264"                              }
                             ]
                         }
                     """
