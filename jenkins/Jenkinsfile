@@ -34,7 +34,6 @@ pipeline {
                 script {
                     // Configure Artifactory details
                     def server = Artifactory.server('artifactory')
-                    def buildInfo = Artifactory.newBuildInfo()
                     // Define the Artifactory upload specification 
                     def uploadSpec = """
                         {
@@ -49,15 +48,25 @@ pipeline {
 
                     // Upload Artifact to Artifactory
                     server.upload(uploadSpec)
-                    server.publishBuildInfo(buildInfo)
                 }
             }
         }
-        stage('Scan with JFrog Xray') {
+        stage('Xray Scan') {
             steps {
-                // Perform the JFrog Xray scan
-                xrayScanBuild serverId: 'artifactory', buildName: 'java-sample-app-07', buildNumber: '27'
+                script {
+                    def server = Artifactory.server('artifactory')
+                    
+                    def scanConfig = [
+                        buildName: 'java-sample-app-07',
+                        buildNumber: '20',
+                        failBuild: false
+                    ]
+                    
+                    def scanResults = server.xrayScan(scanConfig)
+                    
+
+                }
             }
-        }                           
+        }                         
     }
 }
