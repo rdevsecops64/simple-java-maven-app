@@ -56,7 +56,7 @@ pipeline {
         stage('Scan with JFrog Xray') {
             steps {
                 // Perform the JFrog Xray scan
-                xrayScanBuild serverId: 'artifactory', buildName: 'java-sample-app-07', buildNumber: '20'
+                xrayScanBuild serverId: 'artifactory', buildName: 'java-sample-app-07', buildNumber: '27'
             }
         }                           
     }
