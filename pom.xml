@@ -19,7 +19,7 @@
     <repository>
         <id>central</id>
         <name>a0nmfpltbvowz-artifactory-primary-0-releases</name>
-        <url>https://rdevsecops64.jfrog.io/artifactory/default-libs-release</url>
+        <url>https://rdevsecops64.jfrog.io/artifactory/1264</url>
     </repository>
   </distributionManagement>
   <properties>
