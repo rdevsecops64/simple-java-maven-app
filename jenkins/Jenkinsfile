@@ -34,6 +34,7 @@ pipeline {
                 script {
                     // Configure Artifactory details
                     def server = Artifactory.server('artifactory')
+                    def buildInfo = Artifactory.newBuildInfo()
                     // Define the Artifactory upload specification 
                     def uploadSpec = """
                         {
@@ -47,7 +48,13 @@ pipeline {
                 
 
                     // Upload Artifact to Artifactory
-                    server.upload(uploadSpec)
+                    server.upload(uploadSpec, buildInfo)
+                    // Add build information
+                    buildInfo.name = 'java-sample-app-07'
+                    buildInfo.number = '29'
+
+                    // Publish build information to Artifactory
+                    server.publishBuildInfo(buildInfo)                    
                 }
             }
         }
@@ -58,7 +65,7 @@ pipeline {
                     
                     def scanConfig = [
                         buildName: 'java-sample-app-07',
-                        buildNumber: '20',
+                        buildNumber: '29',
                         failBuild: false
                     ]
                     
