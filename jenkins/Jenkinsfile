@@ -41,7 +41,8 @@ pipeline {
                             "files": [
                                 {
                                     "pattern": "target/*.jar",
-                                    "target": "default-generic-local"                              }
+                                    "target": "default-generic-local"                              
+                                }
                             ]
                         }
                     """
