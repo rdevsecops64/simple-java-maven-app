@@ -53,22 +53,11 @@ pipeline {
                 }
             }
         }
-        stage('Xray Scan') {
+        stage('Scan with JFrog Xray') {
             steps {
-                script {
-                    def server = Artifactory.server('artifactory')
-                    
-                    def scanConfig = [
-                        buildName: 'java-sample-app-07',
-                        buildNumber: '20',
-                        failBuild: false
-                    ]
-                    
-                    def scanResults = server.xrayScan(scanConfig)
-                    
-
-                }
+                // Perform the JFrog Xray scan
+                xrayScanBuild serverId: 'artifactory', buildName: 'java-sample-app-07', buildNumber: '20'
             }
-        }                 
+        }                           
     }
 }
