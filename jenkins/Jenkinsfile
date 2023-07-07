@@ -54,7 +54,8 @@ pipeline {
                     buildInfo.env.capture = true
 
                     // Publish build information to Artifactory
-                    server.publishBuildInfo(buildInfo)                    
+                    server.publishBuildInfo buildInfo                    
+
                 }
             }
         }
@@ -64,8 +65,8 @@ pipeline {
                     def server = Artifactory.server('artifactory')
                     
                     def scanConfig = [
-                        buildName: buildInfo.name,
-                        buildNumber: buildInfo.number,
+                        'buildName'   : buildInfo.name, 
+                        'buildNumber' : buildInfo.number
                         failBuild: false
                     ]
                     
