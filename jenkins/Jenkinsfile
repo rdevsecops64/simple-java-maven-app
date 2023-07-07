@@ -51,8 +51,7 @@ pipeline {
                     // Upload Artifact to Artifactory
                     server.upload(uploadSpec, buildInfo)
                     // Add build information
-                    buildInfo.name = 'java-sample-app-07'
-                    buildInfo.number = '29'
+                    buildInfo.env.capture = true
 
                     // Publish build information to Artifactory
                     server.publishBuildInfo(buildInfo)                    
@@ -65,8 +64,8 @@ pipeline {
                     def server = Artifactory.server('artifactory')
                     
                     def scanConfig = [
-                        buildName: 'java-sample-app-07',
-                        buildNumber: '29',
+                        buildName: buildInfo.name,
+                        buildNumber: buildInfo.number,
                         failBuild: false
                     ]
                     
