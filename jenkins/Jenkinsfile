@@ -67,7 +67,7 @@ pipeline {
                     def scanConfig = [
                         buildName: 'java-sample-app-07',
                         buildNumber: '29',
-                        failBuild: false
+                        failBuild: true
                     ]
                     
                     def scanResults = server.xrayScan(scanConfig)
