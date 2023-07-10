@@ -59,7 +59,7 @@ pipeline {
                     def server = Artifactory.server('artifactory')
                     def scanConfig = [
                         'buildName'   : buildInfo.name, 
-                        'buildNumber' : buildInfo.number
+                        'buildNumber' : buildInfo.number,
                          'failBuild' : false
                     ]
                     
