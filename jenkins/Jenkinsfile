@@ -49,13 +49,9 @@ pipeline {
                 
 
                     // Upload Artifact to Artifactory
-                    server.upload(uploadSpec, buildInfo)
-                    // Add build information
-                    buildInfo.name = 'java-sample-app-07'
-                    buildInfo.number = '29'
-
-                    // Publish build information to Artifactory
-                    server.publishBuildInfo(buildInfo)                    
+		    server.upload(uploadSpec,buildInfo)
+	            buildInfo.env.capture = true
+                    server.publishBuildInfo buildInfo		                  
                 }
             }
         }
@@ -65,12 +61,10 @@ pipeline {
                     def server = Artifactory.server('artifactory')
                     
                     def scanConfig = [
-                        buildName: 'java-sample-app-07',
-                        buildNumber: '29',
-                        failBuild: false
+                'buildName'   : buildInfo.name, 
+                'buildNumber' : buildInfo.number
                     ]
-                    
-                    def scanResults = server.xrayScan(scanConfig)
+                    def scanResults = server.xrayScan scanConfig
                     echo scanResults as String
                     sleep 10
                     
