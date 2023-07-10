@@ -30,41 +30,44 @@ pipeline {
 		  }     
         }
         stage('Publish to Artifactory') {
-  steps {
-        script {
-            def server = Artifactory.server 'artifactory' 
-            def buildInfo = Artifactory.newBuildInfo()
-            def uploadSpec = """{
-                "files": [
-                    {
-                        "pattern": "target/*.jar", 
-                        "target": "default-generic-local" 
-                    }
-                ]
-            }"""
+            steps {
+                script {
+                    // Configure Artifactory details
+                    def server = Artifactory.server('artifactory')
+                    def buildInfo = Artifactory.newBuildInfo()
+                    // Define the Artifactory upload specification 
+                    def uploadSpec = """
+                        {
+                            "files": [
+                                {
+                                    "pattern": "target/*.jar",
+                                    "target": "default-generic-local"                              }
+                            ]
+                        }
+                    """
+                    // Upload Artifact to Artifactory
             server.upload(uploadSpec,buildInfo)
             buildInfo.env.capture = true
-            server.publishBuildInfo buildInfo
+            server.publishBuildInfo(buildInfo)                  
+                }
+            }
         }
-    } 
-        }  
         stage('Xray Scan') {
             steps {
                 script {
                     def server = Artifactory.server('artifactory')
+                    
                     def scanConfig = [
-		    'buildInfo.name' = 'buildName',
-                    'buildInfo.number' = 'buildNumber',
-                    failBuild : false
+		'buildName'   : buildInfo.name, 
+                'buildNumber' : buildInfo.number,
+                        failBuild: true
                     ]
                     
                     def scanResults = server.xrayScan(scanConfig)
                     echo scanResults as String
                     sleep 10
-                    
-
                 }
             }
-        }   	    
-    }
+        }  
+  }
 }
