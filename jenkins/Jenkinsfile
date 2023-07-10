@@ -58,9 +58,9 @@ pipeline {
                 script {
                     def server = Artifactory.server('artifactory')
                     def scanConfig = [
-                        'buildName'   : buildInfo.name, 
-                        'buildNumber' : buildInfo.number,
-                         'failBuild' : false
+		    buildInfo.name = 'buildName',
+                    buildInfo.number = 'buildNumber',
+                    failBuild : false
                     ]
                     
                     def scanResults = server.xrayScan(scanConfig)
