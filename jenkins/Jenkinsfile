@@ -48,8 +48,8 @@ pipeline {
                     // Upload Artifact to Artifactory
                     server.upload(uploadSpec, buildInfo)
                     // Add build information
-                    //buildInfo.name = ''
-                    //buildInfo.number = ''
+                    buildInfo.name = 'simple-java-maven-app'
+                    buildInfo.number = '1'
 			
                     buildInfo.env.capture = true
 			
@@ -61,9 +61,6 @@ pipeline {
         stage('Xray Scan') {
             steps {
                 script {
-                    def server = Artifactory.server('artifactory')
-                    def buildInfo = Artifactory.newBuildInfo()
-		   buildInfo.env.capture = true	
                     def scanConfig = [
                         buildName: 'buildInfo.name',
                         buildNumber: 'buildInfo.number',
