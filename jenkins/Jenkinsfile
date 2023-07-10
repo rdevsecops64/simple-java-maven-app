@@ -62,7 +62,8 @@ pipeline {
             steps {
                 script {
                     def server = Artifactory.server('artifactory')
-                    
+                    def buildInfo = Artifactory.newBuildInfo()
+		   buildInfo.env.capture = true	
                     def scanConfig = [
                         buildName: 'buildInfo.name',
                         buildNumber: 'buildInfo.number',
