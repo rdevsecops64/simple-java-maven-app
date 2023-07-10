@@ -45,11 +45,6 @@ pipeline {
             server.upload(uploadSpec,buildInfo)
             buildInfo.env.capture = true
             server.publishBuildInfo buildInfo
-            def scanConfig = [
-                'buildName'   : buildInfo.name, 
-                'buildNumber' : buildInfo.number
-            ]
-            server.xrayScan scanConfig
         }
     } 
         }  
