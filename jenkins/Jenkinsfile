@@ -46,27 +46,22 @@ pipeline {
                             ]
                         }
                     """
-                
-
-                    // Upload Artifact to Artifactory
-		    server.upload(uploadSpec,buildInfo)
-	            buildInfo.env.capture = true
-                    server.publishBuildInfo buildInfo		                  
+            server.upload(uploadSpec,buildInfo)
+            buildInfo.env.capture = true
+            server.publishBuildInfo buildInfo              
                 }
-            }
+            }    
         }
         stage('Xray Scan') {
             steps {
                 script {
                     def server = Artifactory.server('artifactory')
                     
-                    def scanConfig = [
+            def scanConfig = [
                 'buildName'   : buildInfo.name, 
                 'buildNumber' : buildInfo.number
-                    ]
-                    def scanResults = server.xrayScan scanConfig
-                    echo scanResults as String
-                    sleep 10
+            ]
+            server.xrayScan scanConfig    
                     
 
                 }
