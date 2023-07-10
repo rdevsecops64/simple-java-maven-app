@@ -60,6 +60,8 @@ pipeline {
             }
         stage('Xray Scan') {
             steps {
+		    def server = Artifactory.server('artifactory')
+                    def buildInfo = Artifactory.newBuildInfo()
                 script {
                     def scanConfig = [
                         buildName: 'buildInfo.name',
