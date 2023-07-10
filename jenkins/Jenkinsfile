@@ -56,7 +56,6 @@ pipeline {
                 }                
                 }
             }
-        }
         stage('Xray Scan') {
             steps {
                 script {
