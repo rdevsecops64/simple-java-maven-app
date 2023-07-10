@@ -30,42 +30,28 @@ pipeline {
 		  }     
         }
         stage('Publish to Artifactory') {
-            steps {
-                script {
-                    // Configure Artifactory details
-                    def server = Artifactory.server('artifactory')
-                    def buildInfo = Artifactory.newBuildInfo()
-                    // Define the Artifactory upload specification 
-                    def uploadSpec = """
-                        {
-                            "files": [
-                                {
-                                    "pattern": "target/*.jar",
-                                    "target": "default-generic-local"                              
-                                }
-                            ]
-                        }
-                    """
+  steps {
+        script {
+            def server = Artifactory.server 'artifactory' 
+            def buildInfo = Artifactory.newBuildInfo()
+            def uploadSpec = """{
+                "files": [
+                    {
+                        "pattern": "target/*.jar", 
+                        "target": "default-generic-local" 
+                    }
+                ]
+            }"""
             server.upload(uploadSpec,buildInfo)
             buildInfo.env.capture = true
-            server.publishBuildInfo buildInfo              
-                }
-            }    
-        }
-        stage('Xray Scan') {
-            steps {
-                script {
-                    def server = Artifactory.server('artifactory')
-                    
+            server.publishBuildInfo buildInfo
             def scanConfig = [
                 'buildName'   : buildInfo.name, 
                 'buildNumber' : buildInfo.number
             ]
-            server.xrayScan scanConfig    
-                    
-
-                }
-            }
-        }                         
+            server.xrayScan scanConfig
+        }
+    } 
+        }                     
     }
 }
