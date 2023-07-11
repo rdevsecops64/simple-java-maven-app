@@ -45,27 +45,27 @@ pipeline {
                             ]
                         }
                     """
+                
+
                     // Upload Artifact to Artifactory
                     server.upload(uploadSpec, buildInfo)
                     // Add build information
                     buildInfo.name = 'simple-java-maven-app'
                     buildInfo.number = '1'
-			
-                    buildInfo.env.capture = true
-			
+
                     // Publish build information to Artifactory
                     server.publishBuildInfo(buildInfo)                    
-                }                
                 }
             }
+        }
         stage('Xray Scan') {
             steps {
                 script {
-					    def server = Artifactory.server('artifactory')
-                    def buildInfo = Artifactory.newBuildInfo()
+                    def server = Artifactory.server('artifactory')
+                    
                     def scanConfig = [
-                        buildName: 'buildInfo.name',
-                        buildNumber: 'buildInfo.number',
+                        buildName: 'simple-java-maven-app',
+                        buildNumber: '1',
                         failBuild: true
                     ]
                     
@@ -74,6 +74,6 @@ pipeline {
                     sleep 10
                 }
             }
-        }  	    
+        }  
   }
 }
